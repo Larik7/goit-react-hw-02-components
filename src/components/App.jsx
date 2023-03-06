@@ -10,5 +10,28 @@ export class App extends Component {
     bad: 0
   }
 
+  countTotalFeedback();
+  countPositiveFeedbackPercentage();
+
+  render() {
+    return (
+      <Section>
+        <h2></h2>
+        <div>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div>
+        <div>
+          <h3></h3>
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+     </Section>
+    )
+  };
   
 }
