@@ -1,4 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { Section } from "./Section/Section";
+import { FeedbackOptions } from "./FeedbackOptions/FeedbackOptions";
+import { Statistics } from "./Statistics/Statistics";
+import { Notification } from "./Notification/Notification";
+import { Container } from './App.styled';
 
 
 export class App extends Component {
@@ -10,28 +15,40 @@ export class App extends Component {
     bad: 0
   }
 
-  countTotalFeedback();
-  countPositiveFeedbackPercentage();
+  countTotalFeedback = () => Object.values(this.state).reduce((acc, el) => (acc + el), 0);
+
+  countPositiveFeedbackPercentage = () => {
+    const total = this.countTotalFeedback();
+    const { good } = this.state;
+    const percentage = (good / total) * 100;
+    return Math.round(percentage);
+  }
+
+  handleIncrementFeedback = evt => {
+    const { name } = evt.currentTarget;
+    console.log(name);
+    this.setState(prevState => ({
+      [name]: prevState[name] + 1
+    }));
+  };
 
   render() {
+    const { good, bad, neutral } = this.state;
+    const { countTotalFeedback, countPositiveFeedbackPercentage, handleIncrementFeedback } = this;
     return (
-      <Section>
-        <h2></h2>
-        <div>
-          <button></button>
-          <button></button>
-          <button></button>
-        </div>
-        <div>
-          <h3></h3>
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div>
-     </Section>
+      <Container>
+        <Section title="Please leave feedback">
+          <FeedbackOptions options={["good", "neutral", "bad"]} onChangeFeedback={handleIncrementFeedback} />
+        </Section>
+        <Section title="Statistics">
+          {countTotalFeedback() === 0 ? (
+            <Notification message="There is no feedback"/>
+          ) : (
+            <Statistics good={good} bad={bad} neutral={neutral} total={countTotalFeedback()} positivePercentage={countPositiveFeedbackPercentage()} />
+          )}
+        </Section>
+      </Container>
     )
-  };
+  }
   
-}
+};
