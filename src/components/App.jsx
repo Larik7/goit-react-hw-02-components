@@ -26,7 +26,6 @@ export class App extends Component {
 
   handleIncrementFeedback = evt => {
     const { name } = evt.currentTarget;
-    console.log(name);
     this.setState(prevState => ({
       [name]: prevState[name] + 1
     }));
